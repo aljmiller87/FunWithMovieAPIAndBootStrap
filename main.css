@@ -1,0 +1,32 @@
+body {
+	padding: 10px;
+	background-color: #141414;
+}
+
+.space-right:after {
+	content: "\00a0";
+}
+
+.hidden {
+	display: none;
+}
+
+#searchTitle {
+	color: #EFF0F1;
+}
+
+.card {
+	position: relative;
+	cursor: pointer;
+}
+
+.card:hover {
+	opacity: .7;
+}
+
+.vote {
+	position: absolute;
+	top: 20px;
+	right: 35px;
+	padding: 8px;
+}
