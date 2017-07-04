@@ -35,7 +35,8 @@ body {
 	position: absolute;
 	background-color: rgba(0,0,0,.5);
 	top: 33%;
-	left: 8%;
+	left: 30px;
+	right: 30px;
 	padding: 10px;
 	text-align: center;
 	color: #d9d9d9;
