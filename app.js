@@ -41,6 +41,7 @@ const state = {
   searchTitle: 'Now Playing in Theatres',
   page: 1,
   pagesAvailable: 1,
+  currentResultSelected: 0,
   currentDate: function() {
     let date = new Date();
     let isoDate = date.toISOString().slice(0,10);
@@ -58,6 +59,10 @@ function updateSearchType(string) {
 function updateSearchTitle(title) {
   state.customSearch.query.query = title;
   state.searchTitle = title;
+}
+
+function updateCurrentResultSelected(num) {
+  state.currentResultSelected = num;
 }
 
 function setTempResults(data) {
@@ -105,15 +110,19 @@ function getDataFromApi(state, callback, options) {
 function displayMDBSearchData(data) {
   let resultElement = '<div class="row">';
   let paginateOptions = '';
+  let resultsIndex = 0;
   let heading = state.searchTitle;
   let maxPaginationPage = 10;
  
   if (data.results) {
     setTempResults(data);
+    console.log(state.tempResults);
     state.pagesAvailable = Math.ceil(data.total_results / 20);
     data.results.forEach(function(item) {
       resultElement += 
-      '<div class="col-xs-6 col-md-3 card"><div class="thumbnail"><img src="https://image.tmdb.org/t/p/w500' + item.poster_path + '" alt="' + item.title + '"><span class="badge vote">' + item.vote_average + '</span><div class="caption"><h3>' + item.title + '</h3><h4>Release Date: ' + item.release_date + '</h4><p>' + item.overview + '</p></div></div></div>';
+      '<div class="col-xs-6 col-md-3 card"><div class="thumbnail"><img src="https://image.tmdb.org/t/p/w500' + item.poster_path + '" alt="' + item.title + '"><span class="badge vote">' + item.vote_average + '</span><div class="clickHere" onclick="updateCurrentResultSelected(' + resultsIndex + ')" data-toggle="modal" data-target="#exampleModal"><h3>Click for more information</h3><span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span></div></div></div>';
+
+      resultsIndex++;
     });
 
     resultElement += '</div>';
@@ -141,6 +150,26 @@ function displayMDBSearchData(data) {
   $('.paginate').html(paginateOptions);
 
 }
+
+function launchModal(num) {
+  console.log('index position in results array is: ', num);
+  console.log('tempResults at index ', num, ' is: ', state.tempResults.results[num]);
+}
+
+// Modal launch
+$('#exampleModal').on('show.bs.modal', function (event) {
+  let num = state.currentResultSelected;
+  let movie = state.tempResults.results[num];
+  // Will investigate to see if there is method similiar to line 210 that works
+  // var button = $(event.relatedTarget.dataset['data-index']); // Button that triggered the modal
+  let modal = $(this);
+  modal.find('.modalImage').attr('src', 'https://image.tmdb.org/t/p/w500' + movie.poster_path)
+  modal.find('.modalTitle').text(movie.title);
+  modal.find('.modalReleaseDate').html('<strong>Release Date: </strong>' + movie.release_date);
+  modal.find('.modalTotalVotes').html('<strong>Total votes: </strong>' + movie.vote_count)
+  modal.find('.modalVoteRating').html('<strong>Average Rating: </strong>' + movie.vote_average);
+  modal.find('.modalOverview').html('<strong>Overview: </strong>' + movie.overview);
+})
 
 
 // **** Event Listeners ****
@@ -191,3 +220,4 @@ $('#upcoming').on('click', function() {
   updateSearchTitle('Upcoming');
   getDataFromApi(state, displayMDBSearchData);
 });
+
