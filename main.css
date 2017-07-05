@@ -20,6 +20,10 @@ body {
 /*	cursor: pointer;
 */}
 
+.card:hover {
+	opacity: .7 !important;
+}
+
 .card:hover .clickHere{
 	opacity: .7 !important;
 }
@@ -33,7 +37,7 @@ body {
 
 .clickHere {
 	position: absolute;
-	background-color: rgba(0,0,0,.5);
+	background-color: rgba(0,0,0,.8);
 	top: 33%;
 	left: 30px;
 	right: 30px;
@@ -44,18 +48,17 @@ body {
 	opacity: 0;
 }
 
+.thumbnail>img {
+	width: 100%;
+}
+
 span.glyphicon-chevron-down {
     font-size: 2em;
 }
 
-.modalThumbnail {
-	position: relative;
-	left: 50%;
-}
-
 button.close {
 	position: absolute;
-	right: 5%;
+	right: 10%;
 	color: #262626;
 	opacity: .7;
 	font-size: 4em;

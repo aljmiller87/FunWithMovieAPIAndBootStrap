@@ -107,6 +107,7 @@ function getDataFromApi(state, callback, options) {
 }
 
 // **** Render function ****
+// Render results of search
 function displayMDBSearchData(data) {
   let resultElement = '<div class="row">';
   let paginateOptions = '';
@@ -151,12 +152,7 @@ function displayMDBSearchData(data) {
 
 }
 
-function launchModal(num) {
-  console.log('index position in results array is: ', num);
-  console.log('tempResults at index ', num, ' is: ', state.tempResults.results[num]);
-}
-
-// Modal launch
+// Render modal of singularly selected result
 $('#exampleModal').on('show.bs.modal', function (event) {
   let num = state.currentResultSelected;
   let movie = state.tempResults.results[num];
